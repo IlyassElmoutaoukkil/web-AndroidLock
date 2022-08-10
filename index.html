@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchemaLock</title>
+</head>
+<body>
+    <div style="margin: auto;">
+        <svg id="Lock_1" height="500" width="500" style="background-color: #212581">
+
+            <ellipse class="Lock_1" id="Lock_1_1" data="1" cx="25%" cy="25%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1" id="Lock_1_2" data="2" cx="25%" cy="50%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1" id="Lock_1_3" data="3" cx="25%" cy="75%" rx="10" ry="10" style="fill:white" />
+
+            <ellipse class="Lock_1" id="Lock_1_4" data="4" cx="50%" cy="25%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1" id="Lock_1_5" data="5" cx="50%" cy="50%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1" id="Lock_1_6" data="6" cx="50%" cy="75%" rx="10" ry="10" style="fill:white" />
+
+            <ellipse class="Lock_1" id="Lock_1_7" data="7" cx="75%" cy="25%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1" id="Lock_1_8" data="8" cx="75%" cy="50%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1" id="Lock_1_9" data="9" cx="75%" cy="75%" rx="10" ry="10" style="fill:white" />
+
+            <polyline id="Line" points=""
+  style="fill:none;stroke:black;stroke-width:3" />
+        </svg>
+
+        
+<script>
+    var draged = false;
+    var lock = document.getElementById('Lock_1')
+    var pin = "8726"
+    var currentPin = []
+    Line = ""
+
+    LockId = document.getElementsByClassName('Lock_1')
+
+    LockId_width = document.getElementById('Lock_1').getAttribute('width')
+    LockId_height = document.getElementById('Lock_1').getAttribute('height')
+
+    LockCordinates = []
+    for (let l = 0; l < LockId.length; l++) {
+        const element = LockId[l];
+        var number = l+1
+        var cx = LockId_width*(Number(element.getAttribute('cx').slice(0,2))/100)
+        var cy = LockId_height*(Number(element.getAttribute('cy').slice(0,2))/100)
+
+        LockCordinates.push({'int':number,'coordinate':[cx,cy]})
+    }
+
+    
+
+    // console.log(LockCordinates)
+
+    // document.getElementById('Line').setAttribute('points',"25,25 40,25 60,40 80,120 120,140 200,180")
+
+    lock.addEventListener("mousedown", function(){
+        draged = true
+        points = ""
+        for (let k = 0; k < pin.length; k++) {
+            const p = pin[k];
+            
+            for (let km = 0; km < LockCordinates.length; km++) {
+                const element = LockCordinates[km];
+                if(p==element.int){
+                    points=points+' '+element.coordinate[0]+','+element.coordinate[1]
+                    break;
+                }
+            }
+        }
+
+        document.getElementById('Line').setAttribute('points',points)
+        // format (string) = "int,int "
+    });
+    
+
+    lock.addEventListener("mouseup", function(event){
+        draged = false
+        lock.style.backgroundColor='#212581'
+        console.log(event)
+
+    })
+
+    lock.addEventListener("mousemove", function(event){
+        if(draged){
+            var x = event.offsetX
+            var y = event.offsetY
+            lock.style.backgroundColor='blue'
+            mousePosition = event.offsetX+','+event.offsetY
+            if(currentPin.length!=0){
+                lastPoint = currentPin[-1]
+                document.getElementById('Line').setAttribute('points',points+mousePosition)
+            }else{
+
+            }
+            for (let p = 0; p < LockCordinates.length; p++) {
+                const p = LockCordinates[p];
+                
+                if(Math.abs(Math.sqrt(Math.pow(x-pointX)+Math.pow(Y-pointY)))){
+
+                }
+            }
+            
+        }else{
+
+        }
+    })
+
+</script>
+    </div>
+</body>
+
+<style>
+    body,html{
+        height: 100%;
+        width: 100%;
+        margin:0px;
+        padding:0px;
+        display: flex;
+    }
+
+    .lockPoint{
+        position: absolute;
+        width:8px;
+        height:8px;
+        border-radius:50%;
+        background:white;
+    }
+
+    .lockPoint:hover{
+        width:10px;
+        height:10px;
+        background:rgb(22, 199, 205);
+        box-shadow: 0px 0px 10px 10px rgb(205, 137, 79);
+    }
+
+    #Lock_b_1{
+        left:25%;top:25%
+    }
+
+    
+    #Lock_b_2{
+        left:50%;top:25%
+    }
+
+    #Lock_b_3{
+        left:75%;top:25%
+    }
+
+    #Lock_b_4{
+        left:25%;top:50%
+    }
+
+    #Lock_b_5{
+        left:50%;top:50%
+    }
+
+    #Lock_b_6{
+        left:75%;top:50%
+    }
+
+    #Lock_b_7{
+        left:25%;top:75%
+    }
+
+    #Lock_b_8{
+        left:50%;top:75%
+    }
+
+    #Lock_b_9{
+        left:75%;top:75%
+    }
+
+
+</style>
+
+</html>
