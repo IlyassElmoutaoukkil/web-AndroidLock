@@ -55,22 +55,26 @@
 
     // document.getElementById('Line').setAttribute('points',"25,25 40,25 60,40 80,120 120,140 200,180")
 
-    lock.addEventListener("mousedown", function(){
+    lock.addEventListener("mousedown", function(event){
         draged = true
         points = ""
-        for (let k = 0; k < pin.length; k++) {
-            const p = pin[k];
-            
-            for (let km = 0; km < LockCordinates.length; km++) {
-                const element = LockCordinates[km];
-                if(p==element.int){
-                    points=points+' '+element.coordinate[0]+','+element.coordinate[1]
-                    break;
+        var x = event.offsetX
+        var y = event.offsetY
+        
+
+        for (let d = 0; d < LockCordinates.length; d++) {
+                const e = LockCordinates[d];
+                var pointX = e.coordinate[0]
+                var pointY = e.coordinate[1]
+
+                if(Math.sqrt(Math.pow(x-pointX,2)+Math.pow(y-pointY,2))<50){
+                    document.getElementById('Lock_1_'+e.int).style.fill='red'
+                    currentPin.push([pointX,pointY])
+                    console.log(currentPin) 
+                }else{
+                   
                 }
             }
-        }
-
-        document.getElementById('Line').setAttribute('points',points)
         // format (string) = "int,int "
     });
     
@@ -78,8 +82,9 @@
     lock.addEventListener("mouseup", function(event){
         draged = false
         lock.style.backgroundColor='#212581'
-        console.log(event)
-
+        if(currentPin.length==1){
+            currentPin = []
+        }
     })
 
     lock.addEventListener("mousemove", function(event){
@@ -89,23 +94,53 @@
             lock.style.backgroundColor='blue'
             mousePosition = event.offsetX+','+event.offsetY
             if(currentPin.length!=0){
-                lastPoint = currentPin[-1]
-                document.getElementById('Line').setAttribute('points',points+mousePosition)
+                lastPoints = ''
+                currentPin.forEach(e => {
+                    console.log(e)
+                    // lastPoints = lastPoints+' '+e.coordinate[0]+','+e.coordinate[1]
+                });
+                document.getElementById('Line').setAttribute('points',lastPoints+' '+mousePosition)
+
+                for (let d = 0; d < LockCordinates.length; d++) {
+                    const e = LockCordinates[d];
+                    var pointX = e.coordinate[0]
+                    var pointY = e.coordinate[1]
+                    
+                    
+                        if(Math.sqrt(Math.pow(x-pointX,2)+Math.pow(y-pointY,2))<50){
+                            if(!pointAlreadyInPin(pointX,pointY)){
+                                document.getElementById('Lock_1_'+e.int).style.fill='red'
+                                currentPin.push([pointX,pointY])
+                            }
+                        } 
+                    
+                    
+                }
             }else{
 
-            }
-            for (let p = 0; p < LockCordinates.length; p++) {
-                const p = LockCordinates[p];
-                
-                if(Math.abs(Math.sqrt(Math.pow(x-pointX)+Math.pow(Y-pointY)))){
-
-                }
-            }
-            
+            }            
         }else{
 
         }
     })
+
+    function pointAlreadyInPin(x,y){
+        
+        for (let point = 0; point < currentPin.length; point++) {
+            const pin = currentPin[point];
+            console.log(pin)
+            if(pin.coordinate!=undefined){
+                if(pin.coordinate[0]==x && pin.coordinate[1]==y){
+                    return true;
+                    break;
+                }    
+            }
+            
+        }
+
+       
+        
+    }
 
 </script>
     </div>
