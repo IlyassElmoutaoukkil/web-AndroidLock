@@ -11,19 +11,38 @@
         <svg id="Lock_1" height="500" width="500" style="background-color: #212581">
 
             <ellipse class="Lock_1" id="Lock_1_1" data="1" cx="25%" cy="25%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_1_r" data="1" cx="25%" cy="25%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+
             <ellipse class="Lock_1" id="Lock_1_2" data="2" cx="25%" cy="50%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_2_r" data="1" cx="25%" cy="50%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+
             <ellipse class="Lock_1" id="Lock_1_3" data="3" cx="25%" cy="75%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_3_r" data="1" cx="25%" cy="75%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+
+
 
             <ellipse class="Lock_1" id="Lock_1_4" data="4" cx="50%" cy="25%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_4_r" data="1" cx="50%" cy="25%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+
             <ellipse class="Lock_1" id="Lock_1_5" data="5" cx="50%" cy="50%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_5_r" data="1" cx="50%" cy="50%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+
             <ellipse class="Lock_1" id="Lock_1_6" data="6" cx="50%" cy="75%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_6_r" data="1" cx="50%" cy="75%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+
+
 
             <ellipse class="Lock_1" id="Lock_1_7" data="7" cx="75%" cy="25%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_7_r" data="1" cx="75%" cy="25%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+            
             <ellipse class="Lock_1" id="Lock_1_8" data="8" cx="75%" cy="50%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_8_r" data="1" cx="75%" cy="50%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+            
             <ellipse class="Lock_1" id="Lock_1_9" data="9" cx="75%" cy="75%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_9_r" data="1" cx="75%" cy="75%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
 
-            <polyline id="Line" points=""
-  style="fill:none;stroke:black;stroke-width:3" />
+            <polyline stroke-linecap="round" id="Line" points=""
+  style="fill:none;stroke:rgb(231, 26, 26);stroke-width:9" />
         </svg>
 
         
@@ -32,7 +51,12 @@
     var lock = document.getElementById('Lock_1')
     var pin = "8726"
     var currentPin = []
+    var currentPinNumber = []
+
     Line = ""
+
+    RoundedActivePoint = true
+
 
     LockId = document.getElementsByClassName('Lock_1')
 
@@ -56,10 +80,16 @@
     // document.getElementById('Line').setAttribute('points',"25,25 40,25 60,40 80,120 120,140 200,180")
 
     lock.addEventListener("mousedown", function(event){
+        currentPin = []
+        currentPinNumber = []
+        
+        
         draged = true
         points = ""
         var x = event.offsetX
         var y = event.offsetY
+
+        
         
 
         for (let d = 0; d < LockCordinates.length; d++) {
@@ -69,12 +99,20 @@
 
                 if(Math.sqrt(Math.pow(x-pointX,2)+Math.pow(y-pointY,2))<50){
                     document.getElementById('Lock_1_'+e.int).style.fill='red'
-                    currentPin.push([pointX,pointY])
-                    console.log(currentPin) 
+                    if(RoundedActivePoint){
+                        document.getElementById('Lock_1_'+e.int+'_r').style.stroke='white'
+                    }
+                    if(currentPinNumber.indexOf(e.int)==-1){
+                        currentPin.push([pointX,pointY])
+                        currentPinNumber.push(e.int)
+                        console.log(currentPin)     
+                    }
+                    
                 }else{
                    
                 }
-            }
+        }
+
         // format (string) = "int,int "
     });
     
@@ -84,22 +122,29 @@
         lock.style.backgroundColor='#212581'
         if(currentPin.length==1){
             currentPin = []
+        }{
+            alert(currentPinNumber.join())
         }
     })
-
+    
     lock.addEventListener("mousemove", function(event){
         if(draged){
+            var olderLine = ''
+            for (let old = 0; old < currentPin.length; old++) {
+                const older = currentPin[old];
+                olderLine=olderLine+' '+older[0]+','+older[1]
+            }
+
+            console.log(olderLine)
             var x = event.offsetX
             var y = event.offsetY
             lock.style.backgroundColor='blue'
             mousePosition = event.offsetX+','+event.offsetY
             if(currentPin.length!=0){
-                lastPoints = ''
-                currentPin.forEach(e => {
-                    console.log(e)
-                    // lastPoints = lastPoints+' '+e.coordinate[0]+','+e.coordinate[1]
-                });
-                document.getElementById('Line').setAttribute('points',lastPoints+' '+mousePosition)
+                lastPoints = currentPin[currentPin.length-1][0]+','+currentPin[currentPin.length-1][1]
+
+
+                document.getElementById('Line').setAttribute('points',olderLine+' '+lastPoints+' '+mousePosition)
 
                 for (let d = 0; d < LockCordinates.length; d++) {
                     const e = LockCordinates[d];
@@ -107,40 +152,55 @@
                     var pointY = e.coordinate[1]
                     
                     
-                        if(Math.sqrt(Math.pow(x-pointX,2)+Math.pow(y-pointY,2))<50){
-                            if(!pointAlreadyInPin(pointX,pointY)){
-                                document.getElementById('Lock_1_'+e.int).style.fill='red'
-                                currentPin.push([pointX,pointY])
+                    if(Math.sqrt(Math.pow(x-pointX,2)+Math.pow(y-pointY,2))<50){
+                        if(currentPinNumber.indexOf(e.int)==-1){
+                            document.getElementById('Lock_1_'+e.int).style.fill='red'
+                            if(RoundedActivePoint){
+                                document.getElementById('Lock_1_'+e.int+'_r').style.stroke='white'
                             }
-                        } 
+                            currentPin.push([pointX,pointY])
+                            currentPinNumber.push(e.int)
+                        }
+                    } 
                     
                     
                 }
             }else{
-
             }            
         }else{
-
         }
     })
 
-    function pointAlreadyInPin(x,y){
-        
-        for (let point = 0; point < currentPin.length; point++) {
-            const pin = currentPin[point];
-            console.log(pin)
-            if(pin.coordinate!=undefined){
-                if(pin.coordinate[0]==x && pin.coordinate[1]==y){
-                    return true;
-                    break;
-                }    
+    function IntersectPointsOfLineCircle(a,b,c, xm,ym,r) {
+        x_1 = null;	// x coordinate of first intersection point.
+        y_1 = null;	// y coordinate of first intersection point.
+        if (b == 0) {	// The line is a vertical line
+            let B = -2 * ym,
+                C = xm*xm + ym*ym + 2*xm*c/a + c*c/(a*a) - r*r;
+            let D = B*B - 4*C;
+            if (D < 0) { return; }	// if no intersections, bail out
+            x_1 = -c/a;
+            y_1 = (-B + Math.sqrt(D))/2;
+            if (D>0) { 	 // if ( D == 0 ) line is tangent to circle; only one touch point, ie. x2 = x1 and y2 = y1.
+                x_2 = x_1;	
+                y_2 = (-B - Math.sqrt(D))/2;
+                console.log(x_1,y_1)
             }
-            
-        }
-
-       
-        
-    }
+        } else {
+            let A = (a*a/(b*b)) + 1,
+                B = 2 * (a*c/(b*b) - xm + a*ym/b),
+                C = xm*xm + ym*ym + 2*ym*c/b + c*c/(b*b) - r*r;
+            let D = B*B - 4*A*C;
+            if (D < 0) { return; }	// if no intersections, bail out
+            x_1 = (-B + Math.sqrt(D))/(2*A);
+            y_1 = (-a/b)*x_1 - c/b;
+            if (D>0) {		 // if ( D == 0 ) line is tangent to circle; only one touch point, ie. x2 = x1 and y2 = y1.	
+                x_2 = (-B - Math.sqrt(D))/(2*A);	
+                y_2 = (-a/b)*x_2 - c/b;
+                console.log(x_1,y_1)
+            }
+        }	
+    };
 
 </script>
     </div>
