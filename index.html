@@ -10,34 +10,33 @@
     <div style="margin: auto;display:grid;"> 
         <input id="pin" type="text" style="margin-bottom: 10px;height:25px;background-color: #212581;border:none;border-radius: 4px;text-align:center;font-size:20px;color:white">
         <svg id="Lock_1" height="500" width="500" style="background-color: #212581">
-            
             <ellipse class="Lock_1" id="Lock_1_1" data="1" cx="25%" cy="25%" rx="10" ry="10" style="fill:white" />
             <ellipse class="Lock_1_round" id="Lock_1_1_r" data="1" cx="25%" cy="25%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
 
-            <ellipse class="Lock_1" id="Lock_1_2" data="2" cx="25%" cy="50%" rx="10" ry="10" style="fill:white" />
-            <ellipse class="Lock_1_round" id="Lock_1_2_r" data="1" cx="25%" cy="50%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+            <ellipse class="Lock_1" id="Lock_1_2" data="2" cx="50%" cy="25%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_2_r" data="1" cx="50%" cy="25%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
 
-            <ellipse class="Lock_1" id="Lock_1_3" data="3" cx="25%" cy="75%" rx="10" ry="10" style="fill:white" />
-            <ellipse class="Lock_1_round" id="Lock_1_3_r" data="1" cx="25%" cy="75%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+            <ellipse class="Lock_1" id="Lock_1_3" data="3" cx="75%" cy="25%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_3_r" data="1" cx="75%" cy="25%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
 
 
 
-            <ellipse class="Lock_1" id="Lock_1_4" data="4" cx="50%" cy="25%" rx="10" ry="10" style="fill:white" />
-            <ellipse class="Lock_1_round" id="Lock_1_4_r" data="1" cx="50%" cy="25%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+            <ellipse class="Lock_1" id="Lock_1_4" data="4" cx="25%" cy="50%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_4_r" data="1" cx="25%" cy="50%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
 
             <ellipse class="Lock_1" id="Lock_1_5" data="5" cx="50%" cy="50%" rx="10" ry="10" style="fill:white" />
             <ellipse class="Lock_1_round" id="Lock_1_5_r" data="1" cx="50%" cy="50%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
 
-            <ellipse class="Lock_1" id="Lock_1_6" data="6" cx="50%" cy="75%" rx="10" ry="10" style="fill:white" />
-            <ellipse class="Lock_1_round" id="Lock_1_6_r" data="1" cx="50%" cy="75%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+            <ellipse class="Lock_1" id="Lock_1_6" data="6" cx="75%" cy="50%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_6_r" data="1" cx="75%" cy="50%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
 
 
 
-            <ellipse class="Lock_1" id="Lock_1_7" data="7" cx="75%" cy="25%" rx="10" ry="10" style="fill:white" />
-            <ellipse class="Lock_1_round" id="Lock_1_7_r" data="1" cx="75%" cy="25%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+            <ellipse class="Lock_1" id="Lock_1_7" data="7" cx="25%" cy="75%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_7_r" data="1" cx="25%" cy="75%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
             
-            <ellipse class="Lock_1" id="Lock_1_8" data="8" cx="75%" cy="50%" rx="10" ry="10" style="fill:white" />
-            <ellipse class="Lock_1_round" id="Lock_1_8_r" data="1" cx="75%" cy="50%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
+            <ellipse class="Lock_1" id="Lock_1_8" data="8" cx="50%" cy="75%" rx="10" ry="10" style="fill:white" />
+            <ellipse class="Lock_1_round" id="Lock_1_8_r" data="1" cx="50%" cy="75%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
             
             <ellipse class="Lock_1" id="Lock_1_9" data="9" cx="75%" cy="75%" rx="10" ry="10" style="fill:white" />
             <ellipse class="Lock_1_round" id="Lock_1_9_r" data="1" cx="75%" cy="75%" rx="30" ry="30" style="fill:transparent;stroke:transparent;stroke-width:3" />
@@ -75,7 +74,12 @@
     lock.addEventListener("mousedown", function(event){
         currentPin = []
         currentPinNumber = []
-        
+    var e = 0
+    for(var l=0;l<document.getElementsByClassName('Lock_1_round').length;l++){
+        e++
+        document.getElementById('Lock_1_'+e+'_r').style.stroke = 'transparent'
+        document.getElementById('Lock_1_'+e).style.fill='white'
+    }
         
         draged = true
         points = ""
